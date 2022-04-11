@@ -2,6 +2,7 @@ package com.diego.kotlin.loginapirest
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -35,10 +36,28 @@ class MainActivity : AppCompatActivity() {
 
         val url = Constants.BASE_URL + Constants.API_PATH + typeMethod
 
-        val jsonParams = JSONObject()
+        val email = mBinding.etEmail.text.toString().trim()
+        val password = mBinding.etPassword.text.toString().trim()
 
-        val jsonObjectRequest = object : JsonObjectRequest(Request.Method.POST, url, jsonParams, {
-            updateUI(":)")
+        val jsonParams = JSONObject()
+        if (email.isNotEmpty()) {
+            jsonParams.put(Constants.EMAIL_PARAM, email)
+        }
+        if (password.isNotEmpty()) {
+            jsonParams.put(Constants.PASSWORD_PARAM, password)
+        }
+
+        val jsonObjectRequest = object : JsonObjectRequest(Method.POST, url, jsonParams, { response ->
+            Log.i("response", response.toString())
+
+            val id = response.optString(Constants.ID_PROPERTY, Constants.ERROR_VALUE)
+            val token = response.optString(Constants.TOKEN_PROPERTY, Constants.ERROR_VALUE)
+
+            val result = if (id.equals(Constants.ERROR_VALUE)) "${Constants.TOKEN_PROPERTY}: $token"
+                    else "${Constants.ID_PROPERTY}: $id , ${Constants.TOKEN_PROPERTY}: $token"
+
+            //updateUI(":)")
+            updateUI(result)
         }, {
             it.printStackTrace()
             if (it.networkResponse.statusCode == 400) {
