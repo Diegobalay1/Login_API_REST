@@ -22,7 +22,7 @@ class ReqResAPI constructor(context: Context) {
      * las operaciones de red de forma asincrona además de
      * poder leer o escribir en la caché
      */
-    val requestQueue: RequestQueue by lazy {
+    private val requestQueue: RequestQueue by lazy {
         Volley.newRequestQueue(context.applicationContext)
     }
 

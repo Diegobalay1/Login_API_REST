@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.cursosant.android.stores.LoginApplication
 import com.diego.kotlin.loginapirest.databinding.ActivityMainBinding
